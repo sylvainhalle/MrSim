@@ -32,7 +32,7 @@ import java.util.*;
  * @version 1.1
  *
  */
-public class SequentialWorkflow<K,V> implements Workflow
+public class SequentialWorkflow<K,V> implements Workflow<K,V>
 {
 	private Mapper<K,V> m_mapper = null;
 	private Reducer<K,V> m_reducer = null;
