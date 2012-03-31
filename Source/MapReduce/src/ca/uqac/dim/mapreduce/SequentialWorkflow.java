@@ -39,6 +39,24 @@ public class SequentialWorkflow<K,V> implements Workflow<K,V>
 	private InCollector<K,V> m_source = null;
 	
 	/**
+	 * The total number of tuples that the mappers will produce.
+	 * This is only necessary for gathering statistics, and is not
+	 * required in the MapReduce processing <i>per se</i>.
+	 */
+	protected long m_totalTuples = 0;
+	
+	/**
+	 * The maximum number of tuples that a single reducer will process.
+	 * This is used as a measure of the "linearity" of the MapReduce job:
+	 * assuming all reducers worked on a separate thread, this value is
+	 * proportional to the time the longest reducer would take.
+	 * Intuitively, the ratio maxTuples/totalTuples indicates the "speedup"
+	 * incurred by the use of parallel reducers compared to a strictly
+	 * linear processing. 
+	 */
+	protected long m_maxTuples = 0;
+	
+	/**
 	 * Create an instance of SequentialWorkflow.
 	 * @param m The {@link Mapper} to use in the map phase
 	 * @param r The {@link Reducer} to use in the reduce phase
@@ -87,10 +105,36 @@ public class SequentialWorkflow<K,V> implements Workflow<K,V>
 		for (K key : keys)
 		{
 			Collector<K,V> s_source = shuffle.get(key);
+			int num_tuples = s_source.count();
+			m_totalTuples += num_tuples;
+			m_maxTuples = Math.max(m_maxTuples, num_tuples);
 			m_reducer.reduce(out, key, s_source);
 		}
-		
 		return out;
+	}
+	
+	/**
+	 * Returns the maximum number of tuples processed by a single
+	 * reducer in the process. This method returns 0 if the MapReduce
+	 * job hasn't executed yet (i.e. you should call it only after
+	 * a call to {@link run}).
+	 * @return
+	 */
+	public long getMaxTuples()
+	{
+		return m_maxTuples;
+	}
+	
+	/**
+	 * Returns the total number of tuples processed by all reducers.
+	 * This method returns 0 if the MapReduce
+	 * job hasn't executed yet (i.e. you should call it only after
+	 * a call to {@link run}).
+	 * @return
+	 */
+	public long getTotalTuples()
+	{
+		return m_totalTuples;
 	}
 
 }
