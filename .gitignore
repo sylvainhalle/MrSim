@@ -34,3 +34,6 @@ local.properties
 
 # jEdit temp files
 *~
+
+# Exception to jars: mrsim.jar
+!mrsim.jar
