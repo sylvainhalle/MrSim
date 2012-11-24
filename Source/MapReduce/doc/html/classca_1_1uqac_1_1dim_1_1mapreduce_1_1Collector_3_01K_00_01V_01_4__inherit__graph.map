@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$interfaceca_1_1uqac_1_1dim_1_1mapreduce_1_1InCollector_3_01K_00_01V_01_4.html" title="Data source used as the input of the map and reduce phases." alt="" coords="11,5,288,35"/>
+<area shape="rect" id="node4" href="$interfaceca_1_1uqac_1_1dim_1_1mapreduce_1_1OutCollector_3_01K_00_01V_01_4.html" title="Data source used as the output of the map and reduce phases." alt="" coords="5,59,293,88"/>
+</map>
