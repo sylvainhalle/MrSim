@@ -4,6 +4,6 @@
  * illustration of map-reduce and implements its functionalities
  * in the most straightforward way. 
  * @author Sylvain Hallé
- * @version 1.0
+ * @version 1.01
  */
 package ca.uqac.dim.mapreduce;
