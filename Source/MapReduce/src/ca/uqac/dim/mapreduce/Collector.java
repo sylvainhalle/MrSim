@@ -53,16 +53,20 @@ public class Collector<K,V> implements InCollector<K,V>, OutCollector<K,V>
 	 */
 	public void addAll(Collection<Tuple<K,V>> list)
 	{
+             synchronized (this) {
 		m_tuples.addAll(list);
+             }
 	}
 	
 	/**
-	 * Add a new tuple to the Collector
+	 * Add a new tuple to the Collector in a synchronized mode
 	 * @param t The {@link Tuple} to add
 	 */
 	public void collect(Tuple<K,V> t)
 	{
-		m_tuples.add(t);
+            synchronized (this) {
+                m_tuples.add(t);
+            }
 	}
 	
 	/**
@@ -74,17 +78,22 @@ public class Collector<K,V> implements InCollector<K,V>, OutCollector<K,V>
 	public Collector<K,V> subCollector(K key)
 	{
 		Collector<K,V> c = new Collector<K,V>();
+                synchronized (this) {
 		for (Tuple<K,V> t : m_tuples)
 		{
 			if (t.getKey().equals(key))
 				c.m_tuples.add(t);
 		}
+                }
 		return c;
+                
 	}
 	
 	public int count()
 	{
+            synchronized (this) {
 		return m_tuples.size();
+            }
 	}
 	
 	/**
@@ -95,15 +104,19 @@ public class Collector<K,V> implements InCollector<K,V>, OutCollector<K,V>
 	public Map<K,Collector<K,V>> subCollectors()
 	{
 		Map<K,Collector<K,V>> out = new HashMap<K,Collector<K,V>>();
-		for (Tuple<K,V> t : m_tuples)
+                
+                synchronized (this) {
+		for ( Tuple<K,V> t : m_tuples)
 		{
 			K key = t.getKey();
 			Collector<K,V> c = out.get(key);
-			if (c == null)
-				c = new Collector<K,V>();
+			
+                        if (c == null)
+                            c = new Collector<K,V>();
 			c.collect(t);
 			out.put(key, c);
 		}
+                }
 		return out;
 	}
 
