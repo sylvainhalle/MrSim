@@ -31,11 +31,11 @@ import java.util.List;
  * add the new thread and return the object to the calling ligne. 
  * Finally, he can check if all threads of the list are dead. The goal is to 
  * make sure of all of the handling is over, before to pass to the other phase.
- * @author Maxime Soucy-Boivin, mastery assistant researcher of Sylvain Hallé
+ * @author Maxime Soucy-Boivin
  * @version 1.1
  *
  */
-public class ResourceManager<K> {
+public class ResourceManager<K,V> {
     
     /**
      * The number of threads by default of the manager. This value is use when 
@@ -54,7 +54,7 @@ public class ResourceManager<K> {
      * It's important to know that the manager is the only one to have acces to 
      * the list.
      */
-    private List listThread = new LinkedList();
+    private List<Thread> listThread = new LinkedList<Thread>();
     
     /**
      * Set the maximum of threads of the manager
@@ -99,16 +99,16 @@ public class ResourceManager<K> {
      * @param m_mapper The {@link Mapper} to use in the map phase
      * @return 
      */
-    public Thread getThread(Tuple t, Collector temp_coll, Mapper m_mapper)
+    public Thread getThread(Tuple<K,V> t, Collector<K,V> temp_coll, Mapper<K,V> m_mapper)
     {
         int i=0;
         boolean create = false;
-        MapThread MThread = null;
-        MapThread ThreadTemp = null;
+        MapThread<K,V> MThread = null;
+        Thread ThreadTemp = null;
         
         if(listThread.size() < threadMax)
         {
-            MThread = new MapThread(t,temp_coll,m_mapper);
+            MThread = new MapThread<K,V>(t,temp_coll,m_mapper);
             listThread.add(MThread);
         }
         else
@@ -117,12 +117,12 @@ public class ResourceManager<K> {
             {
                 while(i< listThread.size())
                 {
-                    ThreadTemp = (MapThread) listThread.get(i);
+                    ThreadTemp = listThread.get(i);
                 
                     if(!ThreadTemp.isAlive())
                     {
                         listThread.remove(i);
-                        MThread = new MapThread(t,temp_coll,m_mapper);
+                        MThread = new MapThread<K,V>(t,temp_coll,m_mapper);
                         listThread.add(MThread);
                         create = true;
                         i = listThread.size();
@@ -144,16 +144,16 @@ public class ResourceManager<K> {
      * @param m_reducer The {@link Reducer} to use in the reduce phase
      * @return 
      */
-    public Thread getThread(Collector out,  K key, Collector s_source, Reducer m_reducer)
+    public Thread getThread(Collector<K,V> out,  K key, Collector<K,V> s_source, Reducer<K,V> m_reducer)
     {
         int i=0;
         boolean create = false;
-        ReduceThread RThread = null;
-        ReduceThread ThreadTemp = null;
+        ReduceThread<K,V> RThread = null;
+        Thread ThreadTemp = null;
         
         if(listThread.size() < threadMax)
         {
-           RThread = new ReduceThread(out, key, s_source, m_reducer);
+           RThread = new ReduceThread<K,V>(out, key, s_source, m_reducer);
            listThread.add(RThread);
         }
         else
@@ -162,12 +162,12 @@ public class ResourceManager<K> {
             {
                 while(i< listThread.size())
                 {
-                    ThreadTemp = (ReduceThread) listThread.get(i);
+                    ThreadTemp = listThread.get(i);
 
                     if(!ThreadTemp.isAlive())
                     {
                         listThread.remove(i);
-                        RThread = new ReduceThread(out, key, s_source, m_reducer);
+                        RThread = new ReduceThread<K,V>(out, key, s_source, m_reducer);
                         listThread.add(RThread);
                         create = true;
                         i = listThread.size();
@@ -190,7 +190,7 @@ public class ResourceManager<K> {
         Thread ThreadTemp = null;
         while(i < listThread.size())
         {
-            ThreadTemp = (Thread) listThread.get(i);
+            ThreadTemp = listThread.get(i);
                 
             if(ThreadTemp.isAlive())
                 i = 0;    
@@ -204,17 +204,17 @@ public class ResourceManager<K> {
 /**
  * Class who encapsulates the processing of a mapper and his informations 
  * in a thread
- * @author Maxime Soucy-Boivin, mastery assistant researcher of Sylvain Hallé
+ * @author Maxime Soucy-Boivin
  */
-class MapThread extends Thread 
+class MapThread<K,V> extends Thread 
 {
     /**
      * Informations needed to be transferred to the mapper
      * For more information, see function getThread
      */
-    Tuple tThread = new Tuple();
-    Collector Thread_Temp_col = new Collector();
-    Mapper Thread_m_mapper = null;
+    Tuple<K,V> tThread = new Tuple<K,V>();
+    Collector<K,V> Thread_Temp_col = new Collector<K,V>();
+    Mapper<K,V> Thread_m_mapper = null;
     
     /**
      * Create an instance of MapThread
@@ -222,7 +222,7 @@ class MapThread extends Thread
      * @param temp_coll The collector of all results
      * @param m_mapper The {@link Mapper} to use in the map phase
      */
-    MapThread(Tuple t, Collector temp_coll, Mapper m_mapper) 
+    MapThread(Tuple<K,V> t, Collector<K,V> temp_coll, Mapper<K,V> m_mapper) 
     {
         this.tThread = t;
         this.Thread_Temp_col = temp_coll;
@@ -241,18 +241,18 @@ class MapThread extends Thread
 /**
  * Class who encapsulates the processing of a reducer and his informations
  * in a thread
- * @author Maxime Soucy-Boivin, mastery assistant researcher of Sylvain Hallé
+ * @author Maxime Soucy-Boivin
  */
-class ReduceThread<K> extends Thread 
+class ReduceThread<K,V> extends Thread 
 {
     /**
      * Informations needed to be transferred to the reducer
      * For more information, see function getThread
      */
-    Collector outThread = new Collector();
+    Collector<K,V> outThread = new Collector<K,V>();
     K Thread_key = null;
-    Collector Thread_s_source = new Collector();
-    Reducer Thread_m_reducer = null;
+    Collector<K,V> Thread_s_source = new Collector<K,V>();
+    Reducer<K,V> Thread_m_reducer = null;
            
     /**
      * Create an instance of ReduceThread
@@ -261,7 +261,7 @@ class ReduceThread<K> extends Thread
      * @param s_source The collector of all results of the mapper phase
      * @param m_reducer The {@link Reducer} to use in the reduce phase
      */
-    ReduceThread(Collector out, K key, Collector s_source, Reducer m_reducer) 
+    ReduceThread(Collector<K,V> out, K key, Collector<K,V> s_source, Reducer<K,V> m_reducer) 
     {
         this.outThread = out;
         this.Thread_key = key;

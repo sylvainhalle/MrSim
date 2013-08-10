@@ -53,9 +53,9 @@ public class Collector<K,V> implements InCollector<K,V>, OutCollector<K,V>
 	 */
 	public void addAll(Collection<Tuple<K,V>> list)
 	{
-             synchronized (this) {
-		m_tuples.addAll(list);
-             }
+            synchronized (this) {
+        	m_tuples.addAll(list);
+            }
 	}
 	
 	/**
@@ -77,22 +77,22 @@ public class Collector<K,V> implements InCollector<K,V>, OutCollector<K,V>
 	 */
 	public Collector<K,V> subCollector(K key)
 	{
-		Collector<K,V> c = new Collector<K,V>();
-                synchronized (this) {
-		for (Tuple<K,V> t : m_tuples)
-		{
-			if (t.getKey().equals(key))
-				c.m_tuples.add(t);
-		}
-                }
-		return c;
+            Collector<K,V> c = new Collector<K,V>();
+            synchronized (this) {
+        	for (Tuple<K,V> t : m_tuples)
+        	{
+        		if (t.getKey().equals(key))
+        			c.m_tuples.add(t);
+        	}
+            }
+            return c;
                 
 	}
 	
 	public int count()
 	{
             synchronized (this) {
-		return m_tuples.size();
+        	return m_tuples.size();
             }
 	}
 	
@@ -103,21 +103,22 @@ public class Collector<K,V> implements InCollector<K,V>, OutCollector<K,V>
 	 */
 	public Map<K,Collector<K,V>> subCollectors()
 	{
-		Map<K,Collector<K,V>> out = new HashMap<K,Collector<K,V>>();
+            Map<K,Collector<K,V>> out = new HashMap<K,Collector<K,V>>();
                 
-                synchronized (this) {
-		for ( Tuple<K,V> t : m_tuples)
-		{
-			K key = t.getKey();
-			Collector<K,V> c = out.get(key);
+            synchronized (this) {
+                for ( Tuple<K,V> t : m_tuples)
+                {
+        		K key = t.getKey();
+        		Collector<K,V> c = out.get(key);
 			
-                        if (c == null)
-                            c = new Collector<K,V>();
-			c.collect(t);
-			out.put(key, c);
-		}
+                    if (c == null)
+                        c = new Collector<K,V>();
+                	 
+                    c.collect(t);
+                    out.put(key, c);
                 }
-		return out;
+            }
+            return out;
 	}
 
 	@Override
