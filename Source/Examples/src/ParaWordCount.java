@@ -35,8 +35,7 @@ public class ParaWordCount
         new ParallelWorkflow<String,String>( // Initialization
             new CountMap(k), // Mapper
             new CountReduce(n), // Reducer
-            new BigStringCollector("data/The-Metamorphosis.txt"), // Reader
-            new ResourceManager<String>() //Resource Manager Default()= 100 threads
+            new BigStringCollector("data/The-Metamorphosis.txt") // Reader
             );
     // Run the workflow; send results to the InCollector
     InCollector<String,String> results = w.run();

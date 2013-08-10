@@ -40,8 +40,7 @@ public class ParaAnagrams
       new ParallelWorkflow<String,String>(
         new AnagramMap(), // Mapper
         new AnagramReduce(n), // Reducer
-        data, // Input reader
-        new ResourceManager<String>()//Resource Manager Default()= 100 threads
+        data // Input reader
         );
     InCollector<String,String> results = w.run();
     System.out.println("Out of " + data.count() + 

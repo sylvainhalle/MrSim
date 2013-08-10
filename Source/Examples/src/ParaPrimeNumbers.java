@@ -30,8 +30,7 @@ public class ParaPrimeNumbers
 		    new ParallelWorkflow<Integer,Integer>(
 		        new PrimeMap(), // Mapper
 		        new PrimeReduce(), // Reducer
-		        new PrimeCollector(), // Input collector
-                        new ResourceManager<Integer>(400) //Resource Manager Default()= 100 threads
+		        new PrimeCollector() // Input collector
 		        );
 		// Run the workflow
 		InCollector<Integer,Integer> results = w.run();
