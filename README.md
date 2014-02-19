@@ -46,6 +46,20 @@ of view:
   code**
 - The examples and underlying implementation are simple and easy to
   understand
+  
+Surprisingly, MrSim also offers a few features that large-scale
+map-reduce implementations (such as Hadoop) don't have:
+
+- Inheritance is fully supported when declaring the types for tuple keys and
+  values. This means that a mapper working with tuples of type (K,V) will
+  properly accept a tuple of type (K',V') if K' is a descendant of K and
+  V' is a descendant of V. [This does not work in
+  Hadoop.](http://stackoverflow.com/questions/8553461)
+- Tuples output by reducers can be sent directly as input to mappers, making
+  multiple iterations of map-reduce cycles possible. Again, Hadoop does not
+  support this: tuples produced by reducers must be sent serialized to an
+  output collector, and then be re-read from an input collector and
+  converted back into tuples.
 
 As a rule, don't expect any fancy features to be introduced if they
 interfere with the system's current simplicity.
