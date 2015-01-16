@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="MrSim" default="dist" basedir=".">
+
+  <description>Build file for MrSim</description>
+  
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Nothing else to do -->
+    <mkdir dir="doc"/>
+    <mkdir dir="Source/MapReduce/bin"/>
+    <mkdir dir="Source/ParsingTest/bin"/>
+    <mkdir dir="Source/Cli/bin"/>
+  </target>
+  
+  <target name="compile" depends="init" description="Compile the source">
+    <!-- Compile the java code for each project -->
+    <javac
+      srcdir="Source/MapReduce/src"
+      destdir="Source/MapReduce/bin"
+      includeantruntime="false" />
+    <javac
+      srcdir="Source/Examples/src"
+      destdir="Source/Examples/bin"
+      classpath="Source/MapReduce/bin"
+      includeantruntime="false" />
+  </target>
+  
+  <javadoc packagenames="ca.uqac.dim.mapreduce.*"
+           sourcepath="Source/MapReduce/src"
+           excludepackagenames=""
+           defaultexcludes="yes"
+           destdir="doc"
+           author="true"
+           version="true"
+           use="true"
+           encoding="UTF-8"
+           charset="UTF-8"
+           docencoding="UTF-8"
+           windowtitle="MrSim Documentation">
+    <doctitle><![CDATA[<h1>MrSim Documentation</h1>]]></doctitle>
+    <bottom><![CDATA[<i>Copyright &#169; 2012-2015 Sylvain Hall&eacute;. All Rights Reserved.</i>]]></bottom>
+    <link href="http://docs.oracle.com/javase/7/docs/api/"/>
+  </javadoc>
+  
+  <target name="create_jar" depends="compile" description="Create the runnable JAR">
+      <jar destfile="mrsim.jar" filesetmanifest="mergewithoutmain">
+	  <manifest>
+	      <attribute name="Class-Path" value="."/>
+	  </manifest>
+	  <fileset dir="Source/MapReduce/bin"/>
+	  <fileset dir="Source/MapReduce/src"/>
+	  <fileset dir="doc"/>
+      </jar>
+  </target>
+  
+  <target name="dist" depends="create_jar" description="Create distribution">
+    <!-- Do nothing -->
+  </target>
+
+</project>
