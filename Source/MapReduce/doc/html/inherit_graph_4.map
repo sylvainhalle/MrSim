@@ -1,4 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1" href="$interfaceca_1_1uqac_1_1dim_1_1mapreduce_1_1Workflow_3_01K_00_01V_01_4.html" title="Coordinates the execution of a map&#45;reduce job." alt="" coords="7,5,276,35"/>
-<area shape="rect" id="node3" href="$classca_1_1uqac_1_1dim_1_1mapreduce_1_1SequentialWorkflow_3_01K_00_01V_01_4.html" title="Coordinates the execution of a map&#45;reduce job in a single thread." alt="" coords="325,5,656,35"/>
-</map>
