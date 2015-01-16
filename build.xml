@@ -9,8 +9,7 @@
     <!-- Nothing else to do -->
     <mkdir dir="doc"/>
     <mkdir dir="Source/MapReduce/bin"/>
-    <mkdir dir="Source/ParsingTest/bin"/>
-    <mkdir dir="Source/Cli/bin"/>
+    <mkdir dir="Source/Examples/bin"/>
   </target>
   
   <target name="compile" depends="init" description="Compile the source">
@@ -39,7 +38,7 @@
            docencoding="UTF-8"
            windowtitle="MrSim Documentation">
     <doctitle><![CDATA[<h1>MrSim Documentation</h1>]]></doctitle>
-    <bottom><![CDATA[<i>Copyright &#169; 2012-2015 Sylvain Hall&eacute;. All Rights Reserved.</i>]]></bottom>
+    <bottom><![CDATA[<i>Copyright &#169; 2011-2015 Sylvain Hall&eacute;. All Rights Reserved.</i>]]></bottom>
     <link href="http://docs.oracle.com/javase/7/docs/api/"/>
   </javadoc>
   

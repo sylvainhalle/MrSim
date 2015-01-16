@@ -64,6 +64,36 @@ map-reduce implementations (such as Hadoop) don't have:
 As a rule, don't expect any fancy features to be introduced if they
 interfere with the system's current simplicity.
 
+## Compiling and Installing MrSim
+
+First make sure you have the following installed:
+
+- The Java Development Kit (JDK) to compile. MrSim was developed and
+  tested on version 6 of the JDK, but it is probably safe to use any
+  later version. Moreover, it most probably compiles on the JDK 5, although
+  this was not tested.
+- [Ant](http://ant.apache.org) to automate the compilation and build process
+
+Download the sources for MrSim from
+[GitHub](http://github.com/sylvainhalle/MrSim) or clone the repository
+using Git:
+
+    git clone git@github.com:sylvainhalle/MrSim.git
+
+Compile the sources by simply typing:
+
+    ant
+
+This will produce a file called `mrsim.jar` in the folder. This
+file is stand-alone and can be used as a library, so it can be
+moved around to the location of your choice and included in the build
+path of the project.
+
+In addition, the script generates in the `doc` folder the Javadoc
+documentation for using MrSim. This documentation is also embedded in the
+JAR file. To show documentation in Eclipse, right-click on the jar, click
+"Properties", then fill the Javadoc location (which is the JAR itself).
+
 ## How to use MrSim?
 
 See the `Source/Examples` folder for some examples, and the
@@ -72,5 +102,5 @@ See the `Source/Examples` folder for some examples, and the
 ## Who maintains MrSim?
 
 MrSim has been developed and is currently maintained by
-[Sylvain Hallé](http://www.leduotang.com/sylvain), assistant professor at
+[Sylvain Hallé](http://leduotang.ca/sylvain), associate professor at
 Université du Québec à Chicoutimi (Canada).
