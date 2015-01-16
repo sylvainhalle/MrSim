@@ -25,24 +25,26 @@
       includeantruntime="false" />
   </target>
   
-  <javadoc packagenames="ca.uqac.dim.mapreduce.*"
-           sourcepath="Source/MapReduce/src"
-           excludepackagenames=""
-           defaultexcludes="yes"
-           destdir="doc"
-           author="true"
-           version="true"
-           use="true"
-           encoding="UTF-8"
-           charset="UTF-8"
-           docencoding="UTF-8"
-           windowtitle="MrSim Documentation">
-    <doctitle><![CDATA[<h1>MrSim Documentation</h1>]]></doctitle>
-    <bottom><![CDATA[<i>Copyright &#169; 2011-2015 Sylvain Hall&eacute;. All Rights Reserved.</i>]]></bottom>
-    <link href="http://docs.oracle.com/javase/7/docs/api/"/>
-  </javadoc>
+  <target name="javadoc" depends="init" description="Generate the documentation">
+    <javadoc packagenames="ca.uqac.dim.mapreduce.*"
+             sourcepath="Source/MapReduce/src"
+             excludepackagenames=""
+             defaultexcludes="yes"
+             destdir="doc"
+             author="true"
+             version="true"
+             use="true"
+             encoding="UTF-8"
+             charset="UTF-8"
+             docencoding="UTF-8"
+             windowtitle="MrSim Documentation">
+      <doctitle><![CDATA[<h1>MrSim Documentation</h1>]]></doctitle>
+      <bottom><![CDATA[<i>Copyright &#169; 2011-2015 Sylvain Hall&eacute;. All Rights Reserved.</i>]]></bottom>
+      <link href="http://docs.oracle.com/javase/7/docs/api/"/>
+    </javadoc>
+  </target>
   
-  <target name="create_jar" depends="compile" description="Create the runnable JAR">
+  <target name="create_jar" depends="compile,javadoc" description="Create the runnable JAR">
       <jar destfile="mrsim.jar" filesetmanifest="mergewithoutmain">
 	  <manifest>
 	      <attribute name="Class-Path" value="."/>

@@ -28,7 +28,7 @@ public interface Workflow<K,V>
 	/**
 	 * Start a map-reduce job and output the results as a single
 	 * Collector containing all output tuples.
-	 * @return
+	 * @return An InputCollector containing all output tuples
 	 */
 	public InCollector<K,V> run();
 }

@@ -20,7 +20,8 @@ package ca.uqac.dim.mapreduce;
 /**
  * Data source used as the output of the map and reduce 
  * phases. An OutCollector can be used to
- * store data tuples using the {@link collect} method.
+ * store data tuples using the {@link OutCollector#collect(Tuple)}
+ * method.
  *
  * @author Sylvain Hallé
  * @version 1.1

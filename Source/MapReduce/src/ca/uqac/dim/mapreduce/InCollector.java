@@ -22,8 +22,8 @@ import java.util.Iterator;
 /**
  * Data source used as the input of the map and reduce 
  * phases. An InCollector can be used to enumerate data
- * tuples using the {@link hasNext} and {@link next}
- * methods, like an {@link Iterator}.
+ * tuples using the {@link Collector#hasNext()} and
+ * {@link Collector#next()} methods, like an {@link Iterator}.
  * 
  * @author Sylvain Hallé
  * @version 1.0

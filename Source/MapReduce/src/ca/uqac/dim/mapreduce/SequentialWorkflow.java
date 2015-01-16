@@ -117,8 +117,8 @@ public class SequentialWorkflow<K,V> implements Workflow<K,V>
 	 * Returns the maximum number of tuples processed by a single
 	 * reducer in the process. This method returns 0 if the MapReduce
 	 * job hasn't executed yet (i.e. you should call it only after
-	 * a call to {@link run}).
-	 * @return
+	 * a call to {@link SequentialWorkflow#run()}).
+	 * @return The number of tuples
 	 */
 	public long getMaxTuples()
 	{
@@ -129,8 +129,8 @@ public class SequentialWorkflow<K,V> implements Workflow<K,V>
 	 * Returns the total number of tuples processed by all reducers.
 	 * This method returns 0 if the MapReduce
 	 * job hasn't executed yet (i.e. you should call it only after
-	 * a call to {@link run}).
-	 * @return
+	 * a call to {@link SequentialWorkflow#run()}).
+	 * @return The number of tuples
 	 */
 	public long getTotalTuples()
 	{

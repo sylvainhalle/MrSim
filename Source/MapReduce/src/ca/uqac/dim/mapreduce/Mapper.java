@@ -28,7 +28,7 @@ public interface Mapper<K,V>
 {
 	/**
 	 * Map function
-	 * @param out A {@link OutCollector} that will be used to write output tuples
+	 * @param c A {@link OutCollector} that will be used to write output tuples
 	 * @param t A {@link Tuple} to process
 	 */
 	public void map(OutCollector<K,V> c, Tuple<K,V> t);
